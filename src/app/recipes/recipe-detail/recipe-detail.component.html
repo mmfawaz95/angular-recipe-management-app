@@ -1,0 +1,26 @@
+<div *ngIf="recipe" class="recipe-detail-container">
+  <h2>{{ recipe.title }}</h2>
+  <p><strong>Category:</strong> {{ getCategoryName() }}</p>
+  
+  <h3>Description</h3>
+  <p>{{ recipe.description }}</p>
+  
+  <h3>Ingredients</h3>
+  <ul>
+    <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient }}</li>
+  </ul>
+  
+  <h3>Steps</h3>
+  <ol>
+    <li *ngFor="let step of recipe.steps">{{ step }}</li>
+  </ol>
+  
+  <div class="actions">
+    <button mat-raised-button color="accent" (click)="toggleBookmark()">
+      {{ recipe.bookmarked ? 'Unbookmark' : 'Bookmark' }}
+    </button>
+    <button mat-raised-button color="primary" (click)="editRecipe()">Edit</button>
+    <button mat-raised-button color="warn" (click)="deleteRecipe()">Delete</button>
+    <button mat-button (click)="router.navigate(['/recipes'])">Back</button>
+  </div>
+</div>

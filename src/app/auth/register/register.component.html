@@ -1,0 +1,111 @@
+<div class="auth-container">
+  <div class="bubbles">
+    <div class="bubble" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"></div>
+  </div>
+
+  <div class="auth-card">
+    <h2>Create Account</h2>
+    
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          formControlName="username"
+          placeholder="Choose a username">
+        
+        <div *ngIf="registerForm.get('username')?.invalid && 
+                   (registerForm.get('username')?.dirty || registerForm.get('username')?.touched)"
+             class="validation-error">
+          <div *ngIf="registerForm.get('username')?.errors?.['required']">
+            Username is required
+          </div>
+          <div *ngIf="registerForm.get('username')?.errors?.['minlength']">
+            Minimum 3 characters
+          </div>
+          <div *ngIf="registerForm.get('username')?.errors?.['pattern']">
+            Only letters, numbers and underscores
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input">
+          <input 
+            [type]="showPassword ? 'text' : 'password'" 
+            id="password" 
+            formControlName="password"
+            placeholder="Create a password">
+          <button type="button" class="toggle-password" (click)="togglePasswordVisibility('password')">
+            <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+        
+        <div class="password-strength">
+          <div class="strength-bar" [class.active]="passwordStrength >= 1"></div>
+          <div class="strength-bar" [class.active]="passwordStrength >= 2"></div>
+          <div class="strength-bar" [class.active]="passwordStrength >= 3"></div>
+          <div class="strength-bar" [class.active]="passwordStrength >= 4"></div>
+        </div>
+        
+        <div *ngIf="registerForm.get('password')?.invalid && 
+                   (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
+             class="validation-error">
+          <div *ngIf="registerForm.get('password')?.errors?.['required']">
+            Password is required
+          </div>
+          <div *ngIf="registerForm.get('password')?.errors?.['minlength']">
+            Minimum 8 characters
+          </div>
+          <div *ngIf="registerForm.get('password')?.errors?.['pattern']">
+            Must include uppercase, lowercase and number
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="password-input">
+          <input 
+            [type]="showConfirmPassword ? 'text' : 'password'" 
+            id="confirmPassword" 
+            formControlName="confirmPassword"
+            placeholder="Confirm your password">
+          <button type="button" class="toggle-password" (click)="togglePasswordVisibility('confirmPassword')">
+            <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+        
+        <div *ngIf="registerForm.errors?.['mismatch'] && 
+                   registerForm.get('confirmPassword')?.touched"
+             class="validation-error">
+          Passwords don't match
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        <mat-icon>error</mat-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <div *ngIf="successMessage" class="success-message">
+        <mat-icon>check_circle</mat-icon>
+        <span>{{ successMessage }}</span>
+      </div>
+
+      <button 
+        type="submit" 
+        class="auth-button" 
+        [disabled]="registerForm.invalid || isLoading">
+        <span *ngIf="!isLoading">Register</span>
+        <span *ngIf="isLoading">Creating account...</span>
+      </button>
+
+      <div class="auth-footer">
+        Already have an account? <a routerLink="/login">Login</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+
+<div class="recipe-list-container">
+  <div class="search-filter">
+    <mat-form-field appearance="fill">
+      <mat-label>Search</mat-label>
+      <input matInput [(ngModel)]="searchQuery" (ngModelChange)="applyFilters()">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Category</mat-label>
+      <mat-select [(ngModel)]="selectedCategory" (selectionChange)="applyFilters()">
+        <mat-option [value]="undefined">All Categories</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button (click)="addRecipe()">
+      <mat-icon>add</mat-icon> Add New Recipe
+    </button>
+  </div>
+
+  <mat-list>
+    <mat-list-item *ngFor="let recipe of filteredRecipes; trackBy: trackByRecipeId" 
+                  (click)="viewRecipe(recipe.id)">
+      <div class="mat-list-text">
+        <div mat-line>
+          <span class="category-circle" [attr.data-category]="recipe.categoryName"></span>
+          {{ recipe.title }}
+          <span class="bookmark-icon" *ngIf="recipe.bookmarked">
+            <mat-icon color="accent">bookmark</mat-icon>
+          </span>
+        </div>
+        <div mat-line>{{ recipe.description }}</div>
+      </div>
+      
+      <button mat-icon-button (click)="toggleBookmark(recipe.id, $event)">
+        <mat-icon>{{ recipe.bookmarked ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="deleteRecipe(recipe.id, $event)">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <button mat-icon-button 
+        class="view-icon-button"
+        (click)="viewRecipe(recipe.id); $event.stopPropagation()">
+            <mat-icon>visibility</mat-icon>
+         </button>
+
+    </mat-list-item>
+  </mat-list>
+
+  <div class="no-recipes" *ngIf="filteredRecipes.length === 0">
+    <mat-icon>no_food</mat-icon>
+    <p>No recipes found</p>
+    <button mat-raised-button color="primary" (click)="addRecipe()">
+      Add Your First Recipe
+    </button>
+  </div>
+</div>

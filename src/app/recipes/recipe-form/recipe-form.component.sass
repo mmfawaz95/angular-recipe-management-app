@@ -1,0 +1,79 @@
+
+$primary-color: #4285f4
+$accent-color: #34a853
+$warn-color: #ea4335
+$light-gray: #f5f5f5
+$dark-gray: #333
+$form-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
+$form-padding: 2rem
+$input-border-radius: 8px
+
+
+.recipe-form
+  max-width: 800px
+  margin: 2rem auto
+  padding: $form-padding
+  background: white
+  border-radius: 12px
+  box-shadow: $form-shadow
+  font-family: 'Roboto', sans-serif
+
+  h2
+    color: $dark-gray
+    margin-bottom: 1.5rem
+    font-size: 1.8rem
+    font-weight: 600
+    text-align: center
+    padding-bottom: 1rem
+    border-bottom: 1px solid rgba($primary-color, 0.1)
+
+
+form
+  display: flex
+  flex-direction: column
+  gap: 1.5rem
+
+  mat-form-field
+    width: 100%
+
+
+    .mat-form-field-wrapper
+      border-radius: $input-border-radius
+
+    .mat-form-field-outline
+      background-color: $light-gray
+      border-radius: $input-border-radius
+
+ 
+    &.mat-focused
+      .mat-form-field-outline-thicker
+        color: $primary-color
+
+
+    textarea
+      min-height: 100px
+      resize: vertical
+
+.mat-hint
+  font-size: 0.8rem
+  color: lighten($dark-gray, 40%)
+
+
+button[mat-raised-button]
+  align-self: flex-end
+  padding: 0.5rem 2rem
+  margin-top: 1rem
+  font-weight: 500
+  transition: all 0.3s ease
+
+  &:hover
+    transform: translateY(-2px)
+    box-shadow: 0 4px 8px rgba($primary-color, 0.2)
+
+@media (max-width: 768px)
+  .recipe-form
+    padding: 1.5rem
+    margin: 1rem
+
+  form
+    gap: 1rem

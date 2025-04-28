@@ -1,0 +1,283 @@
+@use '@angular/material' as mat
+
+$primary-color: #4285f4
+$accent-color: #34a853
+$warn-color: #ea4335
+$light-gray: #f5f5f5
+$dark-gray: #333
+$card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
+$list-max-height: 65vh
+
+
+$category-colors: (
+  dessert: #FF9E9E,
+  main: #A0E7A0,
+  appetizer: #B5EAD7,
+  drink: #C7CEEA,
+  vegan: #C8E6C9,
+  gluten-free: #FFECB3,
+  other: #E2F0CB
+)
+
+
+.recipe-list-container
+  max-width: 1200px
+  margin: 2rem auto
+  padding: 2rem
+  background: white
+  border-radius: 12px
+  box-shadow: $card-shadow
+  font-family: 'Roboto', sans-serif
+
+  h2
+    color: $dark-gray
+    margin-bottom: 2rem
+    font-size: 1.8rem
+    font-weight: 600
+    text-align: center
+    padding-bottom: 1rem
+    border-bottom: 1px solid rgba($primary-color, 0.1)
+
+.search-filter
+  display: flex
+  flex-wrap: wrap
+  gap: 1.5rem
+  margin-bottom: 2rem
+  align-items: flex-end
+
+  mat-form-field
+    flex: 1
+    min-width: 250px
+
+    .mat-form-field-outline
+      color: rgba($primary-color, 0.2)
+
+    .mat-form-field-outline-thicker
+      color: $primary-color
+
+  button.mat-raised-button
+    height: 56px
+    padding: 0 2rem
+    border-radius: 8px
+    font-weight: 400
+    background-color: $primary-color
+    color: white
+    transition: all 0.3s ease
+    display: flex
+    align-items: center
+    gap: 8px
+
+    &:hover
+      background-color: darken($primary-color, 10%)
+      transform: translateY(-2px)
+      box-shadow: 0 4px 8px rgba($primary-color, 0.2)
+
+
+mat-list
+  border-radius: 8px
+  overflow: hidden
+  max-height: $list-max-height
+  overflow-y: auto
+  background: white
+  @include mat.elevation(1)
+
+  &::-webkit-scrollbar
+    width: 8px
+    height: 8px
+
+  &::-webkit-scrollbar-thumb
+    background-color: rgba($primary-color, 0.3)
+    border-radius: 2px
+
+  &::-webkit-scrollbar-track
+    background: rgba($primary-color, 0.05)
+
+
+  mat-list-item
+    display: flex
+    align-items: center
+    padding: 1rem 1.5rem
+    min-height: 125px
+    border-bottom: 1px solid rgba($primary-color, 0.08)
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+    cursor: pointer
+
+    &:last-child
+      border-bottom: none
+
+    &:hover
+      background-color: rgba($primary-color, 0.03)
+      .category-circle
+        transform: scale(1.15)
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2)
+
+    .mat-list-item-content
+      width: 100%
+      display: flex
+      align-items: center
+
+    .mat-list-text
+      flex-grow: 1
+      padding-right: 1rem
+
+      div[mat-line]:first-child
+        font-weight: 300
+        color: $dark-gray
+        font-size: 1.1rem
+        margin-bottom: 0.1rem
+        display: flex
+        align-items: center
+        gap: 10px
+
+        .category-circle
+          display: inline-block
+          width: 24px
+          height: 40px
+          border-radius: 50%
+          background: map-get($category-colors, other)
+          position: relative
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1)
+          transition: all 0.3s ease
+          flex-shrink: 0
+
+          &::after
+            content: ''
+            position: absolute
+            width: 8px
+            height: 8px
+            background: white
+            border-radius: 50%
+            top: 50%
+            left: 50%
+            transform: translate(-50%, -50%)
+            opacity: 0.8
+
+          @each $name, $color in $category-colors
+            &[data-category="#{$name}"]
+              background: $color
+
+        .bookmark-icon
+          margin-left: auto
+          display: flex
+          align-items: center
+
+      div[mat-line]:nth-child(2)
+        color: lighten($dark-gray, 30%)
+        font-size: 0.9rem
+        line-height: 1.4
+        margin-left: 36px
+
+    button
+      margin-left: 0.75rem
+      opacity: 0.8
+      transition: all 0.2s ease
+      flex-shrink: 0
+
+      &:hover
+        opacity: 1
+        transform: scale(1.15)
+
+      &.mat-icon-button
+        width: 36px
+        height: 36px
+
+      &[color="accent"]
+        color: $accent-color
+
+      &[color="warn"]
+        color: $warn-color
+
+    .view-button
+      color: $primary-color
+      font-weight: 500
+      margin-left: auto
+      text-transform: uppercase
+      font-size: 0.8rem
+      letter-spacing: 0.5px
+      padding: 8px 12px
+      border-radius: 4px
+
+      &:hover
+        background: rgba($primary-color, 0.1)
+
+
+.no-recipes
+  text-align: center
+  padding: 3rem
+  color: lighten($dark-gray, 40%)
+  font-size: 1.1rem
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 1rem
+
+  mat-icon
+    font-size: 48px
+    width: 48px
+    height: 48px
+    color: rgba($dark-gray, 0.2)
+
+  button
+    margin-top: 1rem
+
+
+@media (max-width: 768px)
+  .recipe-list-container
+    padding: 1.5rem
+    margin: 1rem
+    border-radius: 8px
+
+  .search-filter
+    flex-direction: column
+    gap: 1rem
+
+    mat-form-field, button
+      width: 100%
+
+  mat-list
+    max-height: 60vh
+
+    mat-list-item
+      padding: 1rem !important
+      flex-wrap: wrap
+
+      .mat-list-text
+        width: 100%
+        margin-bottom: 0.5rem
+
+        div[mat-line]:first-child
+          gap: 8px
+
+          .category-circle
+            width: 20px
+            height: 20px
+
+            &::after
+              width: 6px
+              height: 6px
+
+          .bookmark-icon
+            margin-left: 0
+
+        div[mat-line]:nth-child(2)
+          margin-left: 28px
+
+      button
+        margin: 0.25rem !important
+
+      .view-button
+        margin-left: 0 !important
+        width: 100%
+        text-align: center
+        margin-top: 0.5rem !important
+        order: 1
+.view-icon-button 
+  color: #3f51b5
+  transition: transform 0.2s
+  
+  &:hover 
+    transform: scale(1.1)
+    color: #303f9f
+  &:active
+    transform: scale(0.95)
+ 

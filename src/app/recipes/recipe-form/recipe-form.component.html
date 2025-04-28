@@ -1,0 +1,42 @@
+<div class="recipe-form">
+  <h2>{{ isEditMode ? 'Edit' : 'Add' }} Recipe</h2>
+
+  <form (ngSubmit)="saveRecipe()">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput [(ngModel)]="recipe.title" name="title" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="recipe.description" name="description" required></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Ingredients (comma separated)</mat-label>
+      <input matInput [(ngModel)]="ingredientsInput" 
+             (ngModelChange)="onIngredientsChange($event)"
+             name="ingredients" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Steps (comma separated)</mat-label>
+      <input matInput [(ngModel)]="stepsInput"
+             (ngModelChange)="onStepsChange($event)"
+             name="steps" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Category</mat-label>
+      <mat-select [(ngModel)]="recipe.categoryId" name="category" required>
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">
+      {{ isEditMode ? 'Update' : 'Save' }} Recipe
+    </button>
+  </form>
+</div>
